@@ -158,7 +158,7 @@ public class QueryBuilder {
 			// 単一のエンティティクラスの複数フィールド（単一フィールド含む）指定の場合
 			} else if (   this.isFieldAll(_criteria.getSelectList())
 					   && this.isSameEntity(_criteria.getSelectList())
-					   && AnnotationUtil.hasEntityAnnotation((Class<?>) _criteria.getSelectList().get(0))) {
+					   && AnnotationUtil.hasEntityAnnotation(((Field) _criteria.getSelectList().get(0)).getDeclaringClass())) {
 				return ((Field) _criteria.getSelectList().get(0)).getDeclaringClass();
 			// 上記以外
 			} else {

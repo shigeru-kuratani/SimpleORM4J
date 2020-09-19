@@ -30,7 +30,7 @@ import net.skuratani.simpleorm4j.util.AnnotationUtil;
  * </pre>
  *
  * @author  Shigeru Kuratani
- * @version 0.0.1
+ * @version 0.0.2
  */
 public class Query {
 
@@ -80,13 +80,15 @@ public class Query {
 	 * </pre>
 	 *
 	 * @return 検索結果をエンティティにマッピングした1件データ
+	 * 　　　　　検索結果が0件の場合はnullを返却
 	 * @throws So4jException プリペアドステートメントの生成に失敗した場合<br>
 	 *                       パラメータのバインド処理に失敗した場合<br>
 	 *                       SQLの実行でエラーが発生した場合<br>
 	 *                       エンティティインスタンスフィールドに値を設定出来なかった場合
 	 */
 	public Object getSingleResult() throws So4jException {
-		return this.selectQuery().get(0);
+		List<?> resultList = this.selectQuery();
+		return 0 < resultList.size() ? resultList.get(0) : null;
 	}
 
 	/**

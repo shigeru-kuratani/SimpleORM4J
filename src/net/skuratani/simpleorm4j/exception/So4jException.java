@@ -9,8 +9,8 @@ package net.skuratani.simpleorm4j.exception;
  *    2. 原因例外：So4jException.getCause()
  * </pre>
  *
- * @author shigeru_cw
- *
+ * @author  Shigeru Kuratani
+ * @version 0.0.1
  */
 public class So4jException extends Exception {
 

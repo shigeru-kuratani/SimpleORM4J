@@ -1,7 +1,5 @@
 package net.skuratani.simpleorm4j.persistence;
 
-import net.skuratani.simpleorm4j.persistence.EntityManager;
-
 /**
  * <p>エンティティマネージャ生成クラス</p>
  * <pre>
