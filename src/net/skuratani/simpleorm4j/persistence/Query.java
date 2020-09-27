@@ -197,7 +197,14 @@ public class Query {
 			this.bindParameter();
 
 			// SQL発行
-			return _preparedStatement.executeUpdate();
+			int updatedCount = _preparedStatement.executeUpdate();
+
+			// デバッグ情報
+			if (ConfigLoader.getConfig().isVerbose()) {
+				StandartOutput.writeln("SimpleORM4J : execute Query#executeUpdate : count " + updatedCount);
+			}
+
+			return updatedCount;
 
 		} catch (Exception e) {
 			throw new So4jException(e.getMessage(), e);
