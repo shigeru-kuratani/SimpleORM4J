@@ -9,7 +9,7 @@ import java.util.Properties;
  * </pre>
  *
  * @author  Shigeru Kuratani
- * @version 0.0.1
+ * @version 0.0.3
  */
 public class ConfigVO {
 
@@ -31,6 +31,9 @@ public class ConfigVO {
 	/** 定数：トランザクション分離レベル */
 	public static final String TRANSACTION_ISOLATION = "transactionIsolation";
 
+	/** 定数：冗長モード */
+	public static final String VERBOSE = "verbose";
+
 	/** データソース名 */
 	protected String dsn;
 
@@ -48,6 +51,9 @@ public class ConfigVO {
 
 	/** トランザクション分離レベル */
 	protected int transactionIsolation;
+
+	/** 冗長モード */
+	protected boolean verbose;
 
 	/**
 	 * <p>データソース名取得</p>
@@ -126,7 +132,7 @@ public class ConfigVO {
 	 *
 	 * @return オートコミット値
 	 */
-	public boolean getAutoCommit() {
+	public boolean isAutoCommit() {
 		return autoCommit;
 	}
 
@@ -158,6 +164,24 @@ public class ConfigVO {
 	}
 
 	/**
+	 * <p>冗長モード取得</p>
+	 *
+	 * @return 冗長モード
+	 */
+	public boolean isVerbose() {
+		return verbose;
+	}
+
+	/**
+	 * <p>冗長モード設定</p>
+	 *
+	 * @param verbose 冗長モード
+	 */
+	public void setVerbose(boolean verbose) {
+		this.verbose = verbose;
+	}
+
+	/**
 	 * <p>設定ファイルマッピング</p>
 	 *
 	 * @param  props プロパティ
@@ -174,6 +198,7 @@ public class ConfigVO {
 		if (props.getProperty(TRANSACTION_ISOLATION) != null) {
 			cvo.setTransactionIsolation(Integer.valueOf(props.getProperty(TRANSACTION_ISOLATION)));
 		}
+		cvo.setVerbose(Boolean.valueOf(props.getProperty(VERBOSE)));
 
 		return cvo;
 	}

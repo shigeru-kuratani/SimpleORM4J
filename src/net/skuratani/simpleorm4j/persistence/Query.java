@@ -16,6 +16,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.skuratani.simpleorm4j.exception.So4jException;
+import net.skuratani.simpleorm4j.io.StandartOutput;
+import net.skuratani.simpleorm4j.loader.ConfigLoader;
 import net.skuratani.simpleorm4j.mapper.EntityPropertyRowMapper;
 import net.skuratani.simpleorm4j.mapper.IfRowMapper;
 import net.skuratani.simpleorm4j.mapper.MapRowMapper;
@@ -30,7 +32,7 @@ import net.skuratani.simpleorm4j.util.AnnotationUtil;
  * </pre>
  *
  * @author  Shigeru Kuratani
- * @version 0.0.2
+ * @version 0.0.3
  */
 public class Query {
 
@@ -153,6 +155,11 @@ public class Query {
 			}
 		} catch (Exception e) {
 			throw new So4jException(e.getMessage(), e);
+		}
+
+		// デバッグ情報
+		if (ConfigLoader.getConfig().isVerbose()) {
+			StandartOutput.writeln("SimpleORM4J : fetch resultset : count " + _resultList.size());
 		}
 
 		return _resultList;
@@ -301,5 +308,17 @@ public class Query {
 		} catch (SQLException sqle) {
 			throw new So4jException(sqle.getMessage(), sqle);
 		}
+	}
+
+	/**
+	 * <p>発行SQL取得</p>
+	 * <pre>
+	 * データベースに発行するSQLを取得する。
+	 * </pre>
+	 *
+	 * @return SQL文
+	 */
+	public String getSql() {
+		return this._sql;
 	}
 }

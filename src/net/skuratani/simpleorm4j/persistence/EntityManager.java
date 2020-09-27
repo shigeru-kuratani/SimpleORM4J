@@ -25,6 +25,7 @@ import javax.sql.DataSource;
 import net.skuratani.simpleorm4j.builder.QueryBuilder;
 import net.skuratani.simpleorm4j.exception.So4jException;
 import net.skuratani.simpleorm4j.expression.Expression;
+import net.skuratani.simpleorm4j.io.StandartOutput;
 import net.skuratani.simpleorm4j.loader.ConfigLoader;
 import net.skuratani.simpleorm4j.util.AnnotationUtil;
 import net.skuratani.simpleorm4j.vo.ConfigVO;
@@ -64,17 +65,32 @@ public class EntityManager {
 				_connection   = ds.getConnection();
 			// URL指定の場合
 			} else if (ConfigLoader.getProps().getProperty(ConfigVO.URL) != null) {
-				_connection = DriverManager.getConnection(
-						config.getUrl(), config.getUser(), config.getPassword());
+				if (   ConfigLoader.getProps().getProperty(ConfigVO.USER) != null
+					&& ConfigLoader.getProps().getProperty(ConfigVO.PASSWORD) != null) {
+					_connection = DriverManager.getConnection(
+							config.getUrl(), config.getUser(), config.getPassword());
+				} else {
+					_connection = DriverManager.getConnection(config.getUrl());
+				}
 			}
 			// オートコミットモード指定
 			if (ConfigLoader.getProps().getProperty(ConfigVO.AUTO_COMMIT) != null) {
-				_connection.setAutoCommit(config.getAutoCommit());
+				_connection.setAutoCommit(config.isAutoCommit());
 			}
 			// トランザクション分離レベル指定
 			if (ConfigLoader.getProps().getProperty(ConfigVO.TRANSACTION_ISOLATION) != null) {
 				_connection.setTransactionIsolation(config.getTransactionIsolation());
 			}
+
+			// デバッグ情報
+			if (config.isVerbose()) {
+				if (ConfigLoader.getProps().getProperty(ConfigVO.DSN) != null) {
+					StandartOutput.writeln("SimpleORM4J : connect database : " + config.getDsn());
+				} else {
+					StandartOutput.writeln("SimpleORM4J : connect database : " + config.getUrl());
+				}
+			}
+
 		} catch (SQLException | NamingException e) {
 			throw new RuntimeException(e.getMessage(), e);
 		}
@@ -142,12 +158,19 @@ public class EntityManager {
 	 */
 	public Query createQuery(Criteria criteria) {
 		QueryBuilder queryBuilder = new QueryBuilder(criteria);
-		return new Query(
+		Query query = new Query(
 					queryBuilder.judgeQueryType(),
 					queryBuilder.createSql(),
 					queryBuilder.judgeEntityClass(),
 					_connection
 				);
+
+		// デバッグ情報
+		if (ConfigLoader.getConfig().isVerbose()) {
+			StandartOutput.writeln("SimpleORM4J : create query : " + System.lineSeparator() + query.getSql());
+		}
+
+		return query;
 	}
 
 	/**
