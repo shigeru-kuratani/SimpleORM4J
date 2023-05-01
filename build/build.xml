@@ -24,8 +24,8 @@
         <javac srcdir="${dir.src}"
 		       destdir="${dir.target.classes}"
 		       encoding="${src.enc}"
-		       source="1.8"
-        	   target="1.8"
+		       source="17"
+        	   target="17"
 		       includeAntRuntime="false"
 		       debug="true">
         	<!--<compilerarg value="-parameters" />-->
@@ -37,5 +37,3 @@
 		<jar basedir="${dir.target.classes}" destfile="${dir.target}/${jar.name}" />
 	</target>
 </project>
-
-
