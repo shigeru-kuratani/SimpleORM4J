@@ -12,4 +12,4 @@ JPAのように永続化コンテキストを使用した高度な処理は実�
 SimpleORM4Jですが、Criteria APIで定義したクエリは標準SQLとしてリレーショナルデータベースに問い合わせが実行されます。
 Oracle Database・MySQL・PostgreSQLで動作確認をしておりますが、その他のデータベースに関しては各位で動作確認をお願い致します。
 
-SimpleORM4Jは、GPLv3([http://www.gnu.org/licenses/gpl.html](http://www.gnu.org/licenses/gpl.html))に基づいて配布を致します。
+SimpleORM4Jは、GPLv2 with the Classpath Exceptionに基づいて配布を致します。
